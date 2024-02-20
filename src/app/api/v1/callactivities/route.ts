@@ -3,13 +3,14 @@ import { db } from "@/app/lib/db";
 
 export async function GET(request: Request) {
 
-    const {subject, accountId, companyId } = await request.json()
+    const {subject, accountId, companyId, userId} = await request.json()
     try {
         const newCallActivities = await db.callActivity.create({
             data: {
                 subject,
                 accountId,
                 companyId,
+                userId
                 
             }
         })

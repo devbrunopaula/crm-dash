@@ -6,12 +6,12 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgres"
   url      = env("DATABASE_URL")
 }
 
 model Company {
-  id          String    @id @default(uuid())
+  id          String    @id @default(dbgenerated("concat('com_', replace(cast(gen_random_uuid() as text), '-', ''))")) @db.Text
   companyName String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -21,7 +21,7 @@ model Company {
 }
 
 model User {
-  id       String   @id @default(cuid())
+  id       String   @id @default(dbgenerated("concat('usr_', replace(cast(gen_random_uuid() as text), '-', ''))")) @db.Text
   email    String   @unique
   name     String?
   password String?
@@ -35,7 +35,7 @@ model User {
 }
 
 model Account {
-  id           String         @id @default(uuid())
+  id           String         @id @default(dbgenerated("concat('acc_', replace(cast(gen_random_uuid() as text), '-', ''))")) @db.Text
   accountName  String
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
@@ -45,7 +45,7 @@ model Account {
 }
 
 model CallActivity {
-  id        String   @id @default(uuid())
+  id        String   @id @default(dbgenerated("concat('act_', replace(cast(gen_random_uuid() as text), '-', ''))")) @db.Text
   subject   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
